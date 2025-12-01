@@ -17,7 +17,7 @@ class authController extends Controller
     return view('Auth.login');
    }
 
-   public function registerUser(Request $req){
+   public function registeruser(Request $req){
     $data=$req->validate([
         'name' => 'required',
         'email' => 'required|email|unique:users,email',
@@ -32,16 +32,21 @@ class authController extends Controller
     }
 }
 
-    public function loginUser(Request $req){
+    public function loginuser(Request $req){
     $data = $req->validate([
     'email' => 'required|email',
     'password' => 'required',
     ]);
     if(Auth::attempt($data)){
-       return "User Login Sucessfully";
+       return redirect()->route('adminindex');
     }
     else{
         return back()->with('error','User mail and password is invalid');
     }
-}
+}    
+     function logout(){
+        Auth::logout();
+        return redirect()->route('loginpage');
+    }
+
 }
